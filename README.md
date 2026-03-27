@@ -101,4 +101,4 @@ Works with any PiKVM instance (V2, V3, V4, DIY) that serves the standard web UI 
 
 ## License
 
-MIT
+GPLv2
