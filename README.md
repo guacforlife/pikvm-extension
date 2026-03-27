@@ -6,6 +6,8 @@ A Chrome extension that enhances the [PiKVM](https://pikvm.org/) web UI with aud
 
 ### Audio & Microphone
 
+PiKVM's own UI [cannot save audio/mic settings](https://docs.pikvm.org/audio/) due to browser autoplay policy — every time you open the page, you have to manually re-enable audio and the microphone. This extension works around that limitation.
+
 - **Auto-enable audio on page load** with configurable default volume
 - **Microphone on load**: choose "Don't change", "Always on", or "Always off"
 - **Mic-links-audio**: enabling the mic automatically enables audio if it was muted
