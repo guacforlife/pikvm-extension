@@ -26,7 +26,7 @@ When the navbar is hidden (via PiKVM's ••• toggle), floating buttons appea
 
 ### Clipboard Paste
 
-Type your clipboard contents into the remote machine via a configurable keyboard shortcut (default: **Alt+V**). The extension intercepts the shortcut before PiKVM's HID handler, releases any held modifier keys on the remote, then pastes through PiKVM's text input. A toast notification confirms the paste.
+Paste text directly into the remote machine with a single shortcut — no need to open PiKVM's text input panel, paste into it, and click send. Press the configurable shortcut (default: **Alt+V**) and the extension reads your clipboard, intercepts the keystroke before PiKVM's HID handler, releases any held modifier keys on the remote, and types the text straight in. A toast notification confirms how many characters were pasted.
 
 ### Fullscreen Toggle
 
