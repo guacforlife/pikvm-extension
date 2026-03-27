@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "PiKVM Enhancements",
+  "version": "1.0",
+  "description": "Auto-enables audio/mic on PiKVM with quick navbar toggles, keyboard fixes, and preferences",
+  "permissions": ["storage", "clipboardRead", "tabs"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "PiKVM Enhancements"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/kvm/", "https://*/kvm/*", "http://*/kvm/", "http://*/kvm/*"],
+      "js": ["keyboard-intercept.js"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://*/kvm/", "https://*/kvm/*", "http://*/kvm/", "http://*/kvm/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

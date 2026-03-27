@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 220px; padding: 14px;
+      font-family: monospace; font-size: 13px;
+      background: #1a1a1a; color: #ddd;
+    }
+    h2 { font-size: 13px; color: #aaa; margin-bottom: 12px; letter-spacing: 1px; }
+    .section { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #333; }
+    .section:last-of-type { border-bottom: none; }
+    h3 { font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 8px; }
+    .row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .row label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    input[type="range"] { flex: 1; accent-color: #4a9eff; }
+    .vol-label { min-width: 34px; text-align: right; color: #aaa; }
+    .radio-group { display: flex; flex-direction: column; gap: 4px; }
+    .radio-group label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    #save {
+      width: 100%; margin-top: 12px; padding: 6px;
+      background: #2a4a7a; color: #fff; border: none;
+      border-radius: 4px; cursor: pointer; font-family: monospace; font-size: 13px;
+    }
+    #save:hover { background: #3a5a9a; }
+    #save.saved { background: #2a6a3a; }
+  </style>
+</head>
+<body>
+  <h2>PiKVM Enhancements</h2>
+
+  <div class="section">
+    <h3>Audio</h3>
+    <div class="row">
+      <label><input type="checkbox" id="audio-enabled"> Enable on load</label>
+    </div>
+    <div class="row">
+      <span>Volume:</span>
+      <input type="range" id="audio-volume" min="0" max="100" value="100">
+      <span class="vol-label" id="vol-label">100%</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Microphone on load</h3>
+    <div class="radio-group">
+      <label><input type="radio" name="mic" value="keep"> Don't change</label>
+      <label><input type="radio" name="mic" value="on"> Always on</label>
+      <label><input type="radio" name="mic" value="off"> Always off</label>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Behaviour</h3>
+    <div class="row">
+      <label><input type="checkbox" id="mic-links-audio"> Mic on &#x2192; enable audio</label>
+    </div>
+    <div style="margin-top:6px;margin-bottom:2px;font-size:12px;">Paste shortcut:</div>
+    <div class="row" style="margin-bottom:2px;">
+      <input type="text" id="paste-shortcut" readonly placeholder="click to set"
+        style="flex:1;background:#111;color:#ddd;border:1px solid #444;border-radius:3px;padding:2px 5px;font-family:monospace;font-size:12px;cursor:pointer;min-width:0;">
+      <button id="paste-shortcut-clear" title="Clear shortcut"
+        style="background:none;border:none;color:#888;cursor:pointer;padding:0 3px;font-size:13px;">&#10005;</button>
+    </div>
+    <div style="font-size:10px;color:#666;">Click field, then press shortcut</div>
+  </div>
+
+  <div class="section">
+    <h3>Keyboard (macOS target)</h3>
+    <div class="row">
+      <label><input type="checkbox" id="option-q-cmd"> Option+Q &#x2192; Cmd+Q</label>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" id="option-tab-cmd"> Option+Tab &#x2192; Cmd+Tab</label>
+    </div>
+    <div style="font-size:10px;color:#666;margin-bottom:8px;">Remap local Option to remote Cmd for quit and app-switcher</div>
+    <div class="row">
+      <label><input type="checkbox" id="gbpc-key-swap"> GBPC: swap `/&#xac; &#x2194; \| keys</label>
+    </div>
+    <div style="font-size:10px;color:#666;">Fix Backquote/IntlBackslash mismatch for GBPC targets</div>
+  </div>
+
+  <div class="section">
+    <h3>UI Improvements</h3>
+    <div class="row">
+      <label><input type="checkbox" id="reduce-navbar"> Reduce navbar height</label>
+    </div>
+    <div style="margin-top:8px;margin-bottom:4px;font-size:11px;color:#888;">Hide navbar items:</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;">
+      <label class="row" style="margin:0"><input type="checkbox" id="hide-atx"> ATX</label>
+      <label class="row" style="margin:0"><input type="checkbox" id="hide-drive"> Drive</label>
+      <label class="row" style="margin:0"><input type="checkbox" id="hide-macro"> Macro</label>
+      <label class="row" style="margin:0"><input type="checkbox" id="hide-text"> Text</label>
+      <label class="row" style="margin:0"><input type="checkbox" id="hide-shortcuts"> Shortcuts</label>
+      <label class="row" style="margin:0"><input type="checkbox" id="hide-logo"> Logo</label>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:6px;">
+    <button id="save" style="flex:1;">Save</button>
+    <button id="reload" title="Reload extension"
+      style="padding:6px 10px;background:#4a2a2a;color:#fff;border:none;border-radius:4px;cursor:pointer;font-family:monospace;font-size:13px;">&#x21bb;</button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
