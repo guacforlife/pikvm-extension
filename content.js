@@ -342,17 +342,31 @@ async function init() {
 
   // PiKVM 4.177+ added a master "Enable multimedia" switch that gates audio/mic/camera.
   // Must be checked before individual audio/mic toggles will take effect.
+  //
+  // IMPORTANT: Pre-set mic/audio state BEFORE clicking multimedia so PiKVM's
+  // __resetStream() reads the final desired state in a single Janus restart.
+  // Without this, rapid sequential restarts break Firefox WebRTC on first load
+  // (mic audio never reaches the target despite the UI showing mic as on).
   const mmSwitch = document.getElementById('stream-multimedia-switch');
   if (mmSwitch && !mmSwitch.checked && (settings.audioEnabled || settings.micDefault === 'on')) {
+    if (settings.micDefault === 'on' && !mic.checked) {
+      mic.checked = true;
+    }
+    if (settings.audioEnabled && Number(slider.value) === 0) {
+      slider.value = String(settings.audioVolume);
+    }
     mmSwitch.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    const video = document.getElementById('stream-video');
+    if (video) video.volume = settings.audioVolume / 100;
+    const volValue = document.getElementById('stream-audio-volume-value');
+    if (volValue) volValue.innerText = settings.audioVolume + '%';
+  } else {
+    if (settings.audioEnabled && Number(slider.value) === 0) {
+      setAudio(slider, settings.audioVolume);
+    }
+    if (settings.micDefault === 'on') setMic(mic, true);
+    else if (settings.micDefault === 'off') setMic(mic, false);
   }
-
-  if (settings.audioEnabled && Number(slider.value) === 0) {
-    setAudio(slider, settings.audioVolume);
-  }
-
-  if (settings.micDefault === 'on') setMic(mic, true);
-  else if (settings.micDefault === 'off') setMic(mic, false);
 
   showToast(`PiKVM \u2014 Audio: ${slider.value}% | Mic: ${mic.checked ? 'on' : 'off'}`);
 
