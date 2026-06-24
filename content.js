@@ -333,10 +333,19 @@ async function init() {
   let syncFloating;
   injectNavbarButtons(slider, mic, fn => { syncFloating = fn; });
 
-  // Wait for Janus to connect and enable the stream-audio feature.
+  // Wait for Janus to connect and enable the stream-audio/multimedia features.
   // Only then will __resetStream() see allow_audio=true.
+  const streamMultimedia = document.getElementById('stream-multimedia');
+  if (streamMultimedia) await waitForFeature(streamMultimedia);
   await waitForFeature(streamAudio);
   syncFloating?.(); // re-sync in case navbar state changed during Janus init
+
+  // PiKVM 4.177+ added a master "Enable multimedia" switch that gates audio/mic/camera.
+  // Must be checked before individual audio/mic toggles will take effect.
+  const mmSwitch = document.getElementById('stream-multimedia-switch');
+  if (mmSwitch && !mmSwitch.checked && (settings.audioEnabled || settings.micDefault === 'on')) {
+    mmSwitch.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+  }
 
   if (settings.audioEnabled && Number(slider.value) === 0) {
     setAudio(slider, settings.audioVolume);
